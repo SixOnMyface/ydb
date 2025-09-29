@@ -51,7 +51,6 @@ public:
 
     void Register(NMonitoring::IMonPage* page);
     NMonitoring::TIndexMonPage* RegisterIndexPage(const TString& path, const TString& title);
-    void RegisterLwtrace();
 
     struct TRegisterActorPageFields {
         TString Title;
@@ -98,7 +97,6 @@ protected:
     TActorSystem* ActorSystem = {};
     TActorId HttpProxyActorId;
     TActorId HttpMonServiceActorId;
-    TActorId HttpAuthMonServiceActorId;
     TActorId NodeProxyServiceActorId;
 
     struct TActorMonPageInfo {
