@@ -58,6 +58,7 @@ ydb/public/sdk/cpp/src/client/federated_topic/ut BasicUsage.PropagateSessionClos
 ydb/public/sdk/cpp/src/client/federated_topic/ut unittest.[*/*] chunk
 ydb/public/sdk/cpp/src/client/topic/ut unittest.[*/*] chunk
 ydb/public/sdk/cpp/src/client/topic/ut/with_direct_read_ut TxUsage.Write_50k_100times_50tx
+ydb/public/sdk/cpp/src/client/topic/ut/with_direct_read_ut TxUsage.Write_And_Read_Gigant_Messages_2
 ydb/public/sdk/cpp/src/client/topic/ut/with_direct_read_ut TxUsage.Write_Only_Big_Messages_In_Wide_Transactions_Query
 ydb/public/sdk/cpp/src/client/topic/ut/with_direct_read_ut unittest.[*/*] chunk
 ydb/public/sdk/cpp/tests/integration/sessions_pool YdbSdkSessionsPool.StressTestSync/0
@@ -67,6 +68,7 @@ ydb/services/persqueue_v1/ut TPersQueueTest.CacheHead
 ydb/services/persqueue_v1/ut TPersQueueTest.LOGBROKER_7820
 ydb/services/persqueue_v1/ut TPersQueueTest.TopicServiceCommitOffset
 ydb/services/persqueue_v1/ut unittest.[*/*] chunk
+ydb/services/ydb/backup_ut BackupRestore.RestoreReplicationThatDoesNotUseSecret
 ydb/services/ydb/ut TAuthenticationWithSqlExecution.CreateAlterUserWithHash
 ydb/services/ydb/ut TGRpcAuthentication.NoConnectRights
 ydb/services/ydb/ut TGRpcAuthentication.NoDescribeRights
