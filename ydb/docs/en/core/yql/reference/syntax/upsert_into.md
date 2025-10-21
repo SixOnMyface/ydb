@@ -33,6 +33,7 @@ VALUES ( 1, 10, 'Some text', Date('2021-10-07')),
        ( 2, 10, 'Some text', Date('2021-10-08'))
 ```
 
+<<<<<<< HEAD
 ## UPSERT INTO ... RETURNING {upsert-into-returning}
 
 Inserts or updates a row and returns their values in a single operation. It allows to retrieve information about the affected row in one query, eliminating the need for an additional SELECT statement.
@@ -40,6 +41,15 @@ Inserts or updates a row and returns their values in a single operation. It allo
 ### Examples
 
 * Return all values of modified row
+=======
+# UPSERT INTO ... RETURNING
+
+It is used to insert or update rows and simultaneously return values from them. This allows you to get information about the modified record in a single query, eliminating the need for an additional `SELECT`.
+
+## Examples 
+
+* Return of all values of the modified string
+>>>>>>> 35b8b32ac79 (Return "UPSERT INTO RETURNING")
 
 ```yql
 UPSERT INTO orders (order_id, status, amount)
@@ -47,7 +57,11 @@ VALUES (1001, 'shipped', 500)
 RETURNING *;
 ```
 
+<<<<<<< HEAD
 * Return specific columns
+=======
+* Return of specific columns
+>>>>>>> 35b8b32ac79 (Return "UPSERT INTO RETURNING")
 
 ```yql
 UPSERT INTO users (user_id, name, email)
