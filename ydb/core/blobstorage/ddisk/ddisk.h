@@ -41,6 +41,8 @@ namespace NKikimr::NDDisk {
             EvReadThenWritePersistentBuffers,
             EvGetPersistentBufferInfo,
             EvPersistentBufferInfo,
+            EvDeleteTabletChunks,
+            EvDeleteTabletChunksResult,
         };
     };
 
@@ -208,6 +210,8 @@ struct TPersistentBufferFormat {
     struct TEvReadThenWritePersistentBuffers;
     struct TEvGetPersistentBufferInfo;
     struct TEvPersistentBufferInfo;
+    struct TEvDeleteTabletChunks;
+    struct TEvDeleteTabletChunksResult;
 
     DECLARE_DDISK_EVENT(Connect) {
         using TResult = TEvConnectResult;
@@ -504,6 +508,16 @@ struct TPersistentBufferFormat {
             ui64 Size;
         };
 
+        struct TOpStats {
+            TString Name;
+            ui64 RequestsInFlight = 0;
+            ui64 Requests = 0; // requests in the measurement window
+            double LatencyP50Ms = 0;
+            double LatencyP99Ms = 0;
+            double LatencyMaxMs = 0;
+            double WindowSeconds = 0; // measurement window for Requests / latencies
+        };
+
         TInstant StartedAt;
         ui32 AllocatedChunks;
         ui32 MaxChunks;
@@ -514,9 +528,11 @@ struct TPersistentBufferFormat {
         ui64 InMemoryCacheLimit;
         ui32 DiskOperationsInflight;
         ui32 PendingEvents;
+        ui64 PerTabletStorageLimit;
         std::vector<TTabletInfo> TabletInfos;
         std::unordered_map<ui64, ui64> EraseBarriers;
         std::vector<std::vector<std::tuple<ui32, ui32>>> FreeSpace;
+        std::vector<TOpStats> OpStats;
     };
 
     struct TEvGetPersistentBufferInfo : public TEventLocal<TEvGetPersistentBufferInfo, TEv::EvGetPersistentBufferInfo> {
@@ -640,6 +656,28 @@ struct TPersistentBufferFormat {
             result->SetStatus(status);
             if (errorReason) {
                 result->SetErrorReason(errorReason);
+            }
+        }
+    };
+
+    DECLARE_DDISK_EVENT(DeleteTabletChunks) {
+        using TResult = TEvDeleteTabletChunksResult;
+
+        TEvDeleteTabletChunks() = default;
+
+        TEvDeleteTabletChunks(const TQueryCredentials& creds) {
+            creds.Serialize(Record.MutableCredentials());
+        }
+    };
+
+    DECLARE_DDISK_EVENT(DeleteTabletChunksResult) {
+        TEvDeleteTabletChunksResult() = default;
+
+        TEvDeleteTabletChunksResult(NKikimrBlobStorage::NDDisk::TReplyStatus::E status,
+                const std::optional<TString>& errorReason = std::nullopt) {
+            Record.SetStatus(status);
+            if (errorReason) {
+                Record.SetErrorReason(*errorReason);
             }
         }
     };
